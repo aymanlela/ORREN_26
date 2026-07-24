@@ -226,10 +226,20 @@
             font-weight: 300;
             letter-spacing: 4px;
         }
+
+        /* الشعار في سطر لوحده */
+        .hero-text .tagline {
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin: 10px 0 5px;
+        }
+
         .hero-text p {
             font-size: 1.2rem;
             color: var(--gray);
-            margin: 20px 0 35px;
+            margin: 15px 0 35px;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
@@ -543,6 +553,9 @@
             .hero-text h2 {
                 font-size: 2.4rem;
             }
+            .hero-text .tagline {
+                font-size: 1rem;
+            }
             .section-title {
                 font-size: 2rem;
             }
@@ -616,7 +629,6 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="logo-wrapper">
-                <!-- صورة اللوجو -->
                 <img src="imgs/1000581149.jpg" alt="ORREN Logo" class="logo-img" />
                 <div class="logo-text">
                     <h1>ORREN <span>26</span></h1>
@@ -639,7 +651,13 @@
             <div class="hero-text">
                 <h2>ORREN <span>26</span></h2>
                 <div class="subtitle">Own Your Style</div>
-                <p>جودة × أناقة × راحة .. تشيرتات وسويت بانس بخامات عالمية، صنعت في مصر لتكون مختلف.</p>
+
+                <!-- الشعار في سطر لوحده -->
+                <div class="tagline">جودة × أناقة × راحة</div>
+
+                <p>تشيرتات وسويت بانس بخامات عالمية،</p>
+                <p> صنعت في مصر لتكون مختلف.</p>
+
                 <a href="https://wa.me/201026748027" target="_blank" class="btn-gold">
                     <i class="fas fa-phone-alt"></i> اطلب الآن - واتساب
                 </a>
@@ -647,7 +665,8 @@
                     <a href="#bestsellers" class="badge-link">
                         <i class="fas fa-crown"></i> الأكثر مبيعاً
                     </a>
-                    <a href="#sweatpants" class="badge-link">
+                    <!-- تشكيلتنا تودي على أول قسم (الأكثر مبيعاً) -->
+                    <a href="#tshirts" class="badge-link">
                         <i class="fas fa-layer-group"></i> تشكيلتنا
                     </a>
                 </div>
@@ -656,7 +675,7 @@
     </section>
 
     <!-- ========================================================== -->
-    <!--  أفضل المبيعات -->
+    <!--  أفضل المبيعات (أول قسم) -->
     <!-- ========================================================== -->
     <div class="container" id="bestsellers">
         <h2 class="section-title">الأكثر <span>مبيعاً</span></h2>
