@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORREN | Own Your Style</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ---------------------- */
+        /* 1. الألوان */
+        /* ---------------------- */
+        :root {
+            --primary-dark: #0f0e0d;
+            --secondary-dark: #1a1715;
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --white: #f0ece6;
+            --gray: #a8a09b;
+            --card-bg: #1c1917;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --navbar-height: 85px;
+        }
+
+        /* ---------------------- */
+        /* 2. إعدادات عامة */
+        /* ---------------------- */
+        html {
+            scroll-padding-top: 130px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--white);
+            line-height: 1.6;
+            padding-top: var(--navbar-height);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* ---------------------- */
+        /* 3. الهيدر (ثابتة في الأعلى) */
+        /* ---------------------- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 14, 13, 0.95);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+            z-index: 9999;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            height: var(--navbar-height);
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar.scrolled {
+            padding: 8px 0;
+            background: rgba(15, 14, 13, 0.98);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            --navbar-height: 70px;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled .logo-wrapper .logo-img {
+            height: 50px;
+        }
+
+        .logo-wrapper .logo-img {
+            height: 65px;
+            width: auto;
+            border-radius: 10px;
+            transition: var(--transition);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .logo-wrapper .logo-img:hover {
+            transform: scale(1.05);
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.1);
+        }
+
+        .logo-text h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin: 0;
+            transition: var(--transition);
+        }
+        .navbar.scrolled .logo-text h1 {
+            font-size: 1.6rem;
+        }
+
+        .logo-text h1 span {
+            color: var(--gold);
+        }
+        .logo-text small {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: var(--gray);
+            margin-top: 2px;
+            transition: var(--transition);
+        }
+        .navbar.scrolled .logo-text small {
+            font-size: 0.55rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid transparent;
+        }
+        .nav-links a:hover {
+            color: var(--gold);
+            border-color: rgba(201, 168, 76, 0.2);
+            background: rgba(201, 168, 76, 0.04);
+        }
+
+        /* ---------------------- */
+        /* 4. واتساب عائم */
+        /* ---------------------- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25d366;
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+            z-index: 9998;
+            transition: var(--transition);
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 50px rgba(37, 211, 102, 0.5);
+        }
+
+        /* ---------------------- */
+        /* 5. القسم الرئيسي (Hero) */
+        /* ---------------------- */
+        .hero {
+            padding: 60px 0 50px;
+            background: radial-gradient(ellipse at 70% 20%, #1f1a15, var(--primary-dark) 75%);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+            text-align: center;
+            position: relative;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.2;
+        }
+
+        .hero-text h2 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+        .hero-text h2 span {
+            color: var(--gold);
+        }
+        .hero-text .subtitle {
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin: 15px 0 10px;
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin: 20px 0 35px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--primary-dark);
+            padding: 18px 55px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: inline-block;
+            transition: var(--transition);
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.15);
+        }
+        .btn-gold:hover {
+            background: transparent;
+            color: var(--gold);
+            box-shadow: 0 0 50px rgba(201, 168, 76, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 30px;
+            margin-top: 35px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 14px 28px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .badge-link i {
+            font-size: 1.6rem;
+            color: var(--gold);
+        }
+        .badge-link:hover {
+            background: rgba(201, 168, 76, 0.06);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.05);
+        }
+
+        /* ---------------------- */
+        /* 6. أقسام المنتجات */
+        /* ---------------------- */
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 70px 0 20px;
+            color: var(--white);
+        }
+        .section-title span {
+            color: var(--gold);
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+            margin: 12px auto 0;
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+
+        .category-header {
+            text-align: center;
+            margin: 55px 0 30px;
+            padding: 25px 35px;
+            background: rgba(201, 168, 76, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(201, 168, 76, 0.06);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            scroll-margin-top: 130px;
+        }
+        .category-header:hover {
+            border-color: rgba(201, 168, 76, 0.15);
+            box-shadow: 0 8px 40px rgba(201, 168, 76, 0.03);
+            transform: translateY(-3px);
+        }
+
+        .category-header h3 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 0;
+            line-height: 1.3;
+            color: var(--white);
+        }
+        .category-header h3 .brand-name {
+            color: var(--gold);
+            font-weight: 900;
+        }
+        .category-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin: 8px 0 0;
+            letter-spacing: 1px;
+        }
+
+        #bestsellers {
+            scroll-margin-top: 130px;
+        }
+        #home {
+            scroll-margin-top: 0px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 35px;
+            margin: 30px 0 10px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px 15px 22px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.08), transparent, rgba(201, 168, 76, 0.03));
+            border-radius: 21px;
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        .product-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(201, 168, 76, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-img {
+            background: #22201e;
+            height: 220px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+            position: relative;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-img::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid rgba(201, 168, 76, 0.06);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .product-card h4 {
+            font-size: 1.2rem;
+            margin: 10px 0 5px;
+            color: var(--white);
+        }
+        .product-card .price {
+            color: var(--gold);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .product-card .rating {
+            color: var(--gold-light);
+            margin: 8px 0 15px;
+            letter-spacing: 3px;
+        }
+        .btn-order {
+            background: transparent;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            color: var(--gold-light);
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            display: inline-block;
+        }
+        .btn-order:hover {
+            background: var(--gold);
+            color: var(--primary-dark);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.15);
+            border-color: var(--gold);
+        }
+
+        /* ---------------------- */
+        /* 7. الفوتر */
+        /* ---------------------- */
+        .footer {
+            background: #0c0b0a;
+            padding: 50px 0 25px;
+            margin-top: 70px;
+            border-top: 1px solid rgba(201, 168, 76, 0.06);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .footer-col h4 {
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+        }
+        .footer-col p,
+        .footer-col a {
+            color: var(--gray);
+            display: block;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+        .footer-col a:hover {
+            color: var(--gold);
+        }
+        .social-icons a {
+            display: inline-block;
+            margin-left: 20px;
+            font-size: 2rem;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        .social-icons a:hover {
+            color: var(--gold);
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* ---------------------- */
+        /* 8. استجابة */
+        /* ---------------------- */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .category-header h3 {
+                font-size: 2rem;
+            }
+            .logo-wrapper .logo-img {
+                height: 50px;
+            }
+            .logo-text h1 {
+                font-size: 1.6rem;
+            }
+            .hero-text h2 {
+                font-size: 3.2rem;
+            }
+            :root {
+                --navbar-height: 75px;
+            }
+            html {
+                scroll-padding-top: 110px;
+            }
+            .category-header,
+            #bestsellers {
+                scroll-margin-top: 110px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-text h2 {
+                font-size: 2.4rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            .logo-wrapper {
+                gap: 12px;
+            }
+            .logo-wrapper .logo-img {
+                height: 40px;
+            }
+            .logo-text h1 {
+                font-size: 1.3rem;
+            }
+            .logo-text small {
+                font-size: 0.5rem;
+                letter-spacing: 3px;
+            }
+            .category-header {
+                padding: 18px 20px;
+                margin: 40px 0 25px;
+            }
+            .category-header h3 {
+                font-size: 1.4rem;
+            }
+            .category-header p {
+                font-size: 0.9rem;
+            }
+            .whatsapp-float {
+                width: 55px;
+                height: 55px;
+                font-size: 2rem;
+                bottom: 20px;
+                left: 20px;
+            }
+            :root {
+                --navbar-height: 65px;
+            }
+            html {
+                scroll-padding-top: 100px;
+            }
+            .category-header,
+            #bestsellers {
+                scroll-margin-top: 100px;
+            }
+            .navbar.scrolled {
+                --navbar-height: 55px;
+            }
+            .navbar.scrolled .logo-wrapper .logo-img {
+                height: 35px;
+            }
+            .navbar.scrolled .logo-text h1 {
+                font-size: 1.2rem;
+            }
+            .navbar.scrolled .logo-text small {
+                font-size: 0.45rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== واتساب عائم ========== -->
+    <a href="https://wa.me/201026748027" target="_blank" class="whatsapp-float" aria-label="تواصل واتساب">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ========== الهيدر (ثابتة في الأعلى) ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="logo-wrapper">
+                <!-- صورة اللوجو -->
+                <img src="imgs/1000581149.jpg" alt="ORREN Logo" class="logo-img" />
+                <div class="logo-text">
+                    <h1>ORREN <span>26</span></h1>
+                    <small>OWN YOUR STYLE</small>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#home">الرئيسية</a>
+                <a href="#tshirts">تشيرتات</a>
+                <a href="#sweatpants">سويت بانس</a>
+                <a href="#new">الأجدد</a>
+                <a href="#sets">تجميعات</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== القسم الرئيسي ========== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-text">
+                <h2>ORREN <span>26</span></h2>
+                <div class="subtitle">Own Your Style</div>
+                <p>جودة × أناقة × راحة .. تشيرتات وسويت بانس بخامات عالمية، صنعت في مصر لتكون مختلف.</p>
+                <a href="https://wa.me/201026748027" target="_blank" class="btn-gold">
+                    <i class="fas fa-phone-alt"></i> اطلب الآن - واتساب
+                </a>
+                <div class="hero-badges">
+                    <a href="#bestsellers" class="badge-link">
+                        <i class="fas fa-crown"></i> الأكثر مبيعاً
+                    </a>
+                    <a href="#sweatpants" class="badge-link">
+                        <i class="fas fa-layer-group"></i> تشكيلتنا
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!--  أفضل المبيعات -->
+    <!-- ========================================================== -->
+    <div class="container" id="bestsellers">
+        <h2 class="section-title">الأكثر <span>مبيعاً</span></h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت ORREN" /></div>
+                <h4>تيشيرت ORREN</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٣٩٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20ORREN" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بانس" /></div>
+                <h4>سويت بانس كلاسيك</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٤٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20بانس" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أوفرسايز" /></div>
+                <h4>تيشيرت أوفرسايز</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٤٢٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أوفرسايز" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بانس ريترو" /></div>
+                <h4>سويت بانس ريترو</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٤٨٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20بانس%20ريترو" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  1. تشيرتات ORREN -->
+    <!-- ========================================================== -->
+    <div class="container" id="tshirts">
+        <div class="category-header">
+            <h3>تشيرتات <span class="brand-name">ORREN</span></h3>
+            <p>أحدث التصاميم بخامات فاخرة تناسب كل الأذواق</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أبيض" /></div>
+                <h4>تيشيرت أبيض</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٣٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أبيض" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أسود" /></div>
+                <h4>تيشيرت أسود</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٣٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أسود" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت جرافيك" /></div>
+                <h4>تيشيرت جرافيك</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٤٢٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20جرافيك" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أوفرسايز" /></div>
+                <h4>تيشيرت أوفرسايز</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٤٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أوفرسايز" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  2. سويت بانس ORREN -->
+    <!-- ========================================================== -->
+    <div class="container" id="sweatpants">
+        <div class="category-header">
+            <h3>سويت بانس <span class="brand-name">ORREN</span></h3>
+            <p>راحة فائقة وأناقة عصرية في قطعة واحدة</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كلاسيك" /></div>
+                <h4>سويت كلاسيك</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٤٠٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20كلاسيك" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كارگو" /></div>
+                <h4>سويت كارگو</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٤٨٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20كارگو" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت ريترو" /></div>
+                <h4>سويت ريترو</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٤٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20ريترو" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بريميوم" /></div>
+                <h4>سويت بريميوم</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٥٢٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20بريميوم" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  3. الأجدد من ORREN -->
+    <!-- ========================================================== -->
+    <div class="container" id="new">
+        <div class="category-header">
+            <h3>الأجدد من <span class="brand-name">ORREN</span></h3>
+            <p>تشكيلة محدودة وصلت حديثاً .. لا تفوتها</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت إصدار محدود" /></div>
+                <h4>تيشيرت إصدار محدود</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٤٩٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20إصدار%20محدود" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كاجوال" /></div>
+                <h4>سويت بانس كاجوال</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٤٦٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20كاجوال" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة الصيف" /></div>
+                <h4>تجميعة الصيف</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٧٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20الصيف" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="طاقية ORREN" /></div>
+                <h4>طاقية ORREN</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٢٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20طاقية%20ORREN" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  4. تجميعات ORREN -->
+    <!-- ========================================================== -->
+    <div class="container" id="sets">
+        <div class="category-header">
+            <h3>تجميعات <span class="brand-name">ORREN</span></h3>
+            <p>أفضل الأسعار لتشكيلات متكاملة من إطلالتك</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة أسود" /></div>
+                <h4>تجميعة ORREN Black</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٧٩٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Black" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة رمادي" /></div>
+                <h4>تجميعة ORREN Gray</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٧٩٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Gray" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة ستريت" /></div>
+                <h4>تجميعة Street Wear</h4>
+                <div class="rating">★★★★☆</div>
+                <div class="price">٨٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Street" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+            <div class="product-card">
+                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة بريميوم" /></div>
+                <h4>تجميعة Premium</h4>
+                <div class="rating">★★★★★</div>
+                <div class="price">٩٥٠ ج.م</div>
+                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Premium" target="_blank" class="btn-order">اطلب القطعة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== الفوتر ========== -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>ORREN 26</h4>
+                <p><i class="fas fa-tshirt"></i> صنع في مصر بخامات عالمية</p>
+                <p><i class="fas fa-phone-alt"></i> 01026748027</p>
+                <p><i class="fas fa-map-marker-alt"></i> مصر - القاهرة</p>
+            </div>
+            <div class="footer-col">
+                <h4>تابعنا</h4>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/1JRaaAJA7U/" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/201026748027" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p style="margin-top:15px;">
+                    <i class="fas fa-envelope"></i> orren26@style.com
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 ORREN 26 - جميع الحقوق محفوظة
+        </div>
+    </footer>
+
+    <!-- ========== JavaScript لتأثير التمرير ========== -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+</body>
+</html>
