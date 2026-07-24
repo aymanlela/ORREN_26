@@ -62,7 +62,7 @@
             left: 0;
             right: 0;
             background: rgba(15, 14, 13, 0.95);
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(201, 168, 76, 0.15);
             z-index: 9999;
             backdrop-filter: blur(16px);
@@ -164,14 +164,19 @@
         }
 
         /* ---------------------- */
-        /* 4. واتساب عائم */
+        /* 4. واتساب عائم + سلة عائمة */
         /* ---------------------- */
-        .whatsapp-float {
+        .float-icons {
             position: fixed;
             bottom: 30px;
             left: 30px;
-            background: #25d366;
-            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 9998;
+        }
+
+        .float-btn {
             width: 65px;
             height: 65px;
             border-radius: 50%;
@@ -179,13 +184,47 @@
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
-            z-index: 9998;
             transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
-        .whatsapp-float:hover {
+        .float-btn:hover {
             transform: scale(1.08);
+        }
+
+        .float-btn.whatsapp {
+            background: #25d366;
+            color: white;
+        }
+        .float-btn.whatsapp:hover {
             box-shadow: 0 0 50px rgba(37, 211, 102, 0.5);
+        }
+
+        .float-btn.cart {
+            background: var(--gold);
+            color: var(--primary-dark);
+        }
+        .float-btn.cart:hover {
+            box-shadow: 0 0 50px rgba(201, 168, 76, 0.4);
+        }
+
+        .float-btn .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
         }
 
         /* ---------------------- */
@@ -227,7 +266,6 @@
             letter-spacing: 4px;
         }
 
-        /* الشعار في سطر لوحده */
         .hero-text .tagline {
             font-size: 1.3rem;
             color: var(--gold);
@@ -448,25 +486,177 @@
             letter-spacing: 3px;
         }
         .btn-order {
-            background: transparent;
-            border: 1px solid rgba(201, 168, 76, 0.2);
-            color: var(--gold-light);
-            padding: 10px 30px;
+            background: var(--gold);
+            color: var(--primary-dark);
+            border: none;
+            padding: 10px 25px;
             border-radius: 40px;
-            font-weight: 600;
+            font-weight: 700;
             transition: var(--transition);
             cursor: pointer;
             display: inline-block;
+            font-size: 0.95rem;
         }
         .btn-order:hover {
-            background: var(--gold);
-            color: var(--primary-dark);
+            background: transparent;
+            color: var(--gold);
             box-shadow: 0 0 30px rgba(201, 168, 76, 0.15);
-            border-color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+        .btn-order.added {
+            background: #2d8f4e;
+            color: white;
+        }
+        .btn-order.added:hover {
+            background: #1f6b3a;
+            color: white;
+            border: none;
         }
 
         /* ---------------------- */
-        /* 7. الفوتر */
+        /* 7. السلة (Cart Sidebar) */
+        /* ---------------------- */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            left: -420px;
+            width: 400px;
+            max-width: 90%;
+            height: 100%;
+            background: #1a1715;
+            z-index: 10001;
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 25px 20px;
+            overflow-y: auto;
+            border-left: 2px solid rgba(201, 168, 76, 0.15);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+        }
+        .cart-sidebar.open {
+            left: 0;
+        }
+
+        .cart-sidebar .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .cart-sidebar .cart-header h3 {
+            color: var(--gold);
+            font-size: 1.6rem;
+        }
+        .cart-sidebar .cart-header .close-cart {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .cart-sidebar .cart-header .close-cart:hover {
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .cart-item .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .cart-item .item-name {
+            color: var(--white);
+            font-weight: 600;
+        }
+        .cart-item .item-price {
+            color: var(--gold-light);
+            font-size: 0.9rem;
+        }
+        .cart-item .remove-item {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        .cart-item .remove-item:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            padding: 20px 0;
+            border-top: 2px solid rgba(201, 168, 76, 0.1);
+            margin-top: 10px;
+        }
+        .cart-total .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+        .cart-total .total-row span:last-child {
+            color: var(--gold);
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: var(--gray);
+            padding: 40px 0;
+            font-size: 1.1rem;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background: var(--gold);
+            color: var(--primary-dark);
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+        .btn-checkout:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.2);
+        }
+        .btn-checkout:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ---------------------- */
+        /* 8. الفوتر */
         /* ---------------------- */
         .footer {
             background: #0c0b0a;
@@ -515,7 +705,7 @@
         }
 
         /* ---------------------- */
-        /* 8. استجابة */
+        /* 9. استجابة */
         /* ---------------------- */
         @media (max-width: 992px) {
             .nav-links {
@@ -546,6 +736,16 @@
             .category-header,
             #bestsellers {
                 scroll-margin-top: 110px;
+            }
+            .float-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 2rem;
+            }
+            .float-icons {
+                bottom: 20px;
+                left: 20px;
+                gap: 12px;
             }
         }
 
@@ -586,12 +786,27 @@
             .category-header p {
                 font-size: 0.9rem;
             }
-            .whatsapp-float {
-                width: 55px;
-                height: 55px;
-                font-size: 2rem;
-                bottom: 20px;
-                left: 20px;
+            .cart-sidebar {
+                width: 100%;
+                max-width: 100%;
+                left: -100%;
+            }
+            .float-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.7rem;
+            }
+            .float-icons {
+                bottom: 15px;
+                left: 15px;
+                gap: 10px;
+            }
+            .float-btn .badge {
+                width: 22px;
+                height: 22px;
+                font-size: 0.65rem;
+                top: -6px;
+                right: -6px;
             }
             :root {
                 --navbar-height: 65px;
@@ -620,10 +835,18 @@
 </head>
 <body>
 
-    <!-- ========== واتساب عائم ========== -->
-    <a href="https://wa.me/201026748027" target="_blank" class="whatsapp-float" aria-label="تواصل واتساب">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- ========== واتساب عائم + سلة عائمة ========== -->
+    <div class="float-icons">
+        <!-- أيقونة السلة -->
+        <button class="float-btn cart" id="cartFloatBtn" title="سلة التسوق">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge" id="cartBadge">0</span>
+        </button>
+        <!-- أيقونة واتساب -->
+        <a href="https://wa.me/201026748027" target="_blank" class="float-btn whatsapp" title="تواصل واتساب">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
 
     <!-- ========== الهيدر (ثابتة في الأعلى) ========== -->
     <nav class="navbar" id="navbar">
@@ -651,13 +874,8 @@
             <div class="hero-text">
                 <h2>ORREN <span>26</span></h2>
                 <div class="subtitle">Own Your Style</div>
-
-                <!-- الشعار في سطر لوحده -->
                 <div class="tagline">جودة × أناقة × راحة</div>
-
-                <p>تشيرتات وسويت بانس بخامات عالمية،</p>
-                <p> صنعت في مصر لتكون مختلف.</p>
-
+                <p>تشيرتات وسويت بانس بخامات عالمية، صنعت في مصر لتكون مختلف.</p>
                 <a href="https://wa.me/201026748027" target="_blank" class="btn-gold">
                     <i class="fas fa-phone-alt"></i> اطلب الآن - واتساب
                 </a>
@@ -665,7 +883,6 @@
                     <a href="#bestsellers" class="badge-link">
                         <i class="fas fa-crown"></i> الأكثر مبيعاً
                     </a>
-                    <!-- تشكيلتنا تودي على أول قسم (الأكثر مبيعاً) -->
                     <a href="#tshirts" class="badge-link">
                         <i class="fas fa-layer-group"></i> تشكيلتنا
                     </a>
@@ -675,38 +892,38 @@
     </section>
 
     <!-- ========================================================== -->
-    <!--  أفضل المبيعات (أول قسم) -->
+    <!--  أفضل المبيعات -->
     <!-- ========================================================== -->
     <div class="container" id="bestsellers">
         <h2 class="section-title">الأكثر <span>مبيعاً</span></h2>
         <div class="products-grid">
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت ORREN" data-price="390">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت ORREN" /></div>
                 <h4>تيشيرت ORREN</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٣٩٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20ORREN" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="سويت بانس كلاسيك" data-price="450">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بانس" /></div>
                 <h4>سويت بانس كلاسيك</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٤٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20بانس" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت أوفرسايز" data-price="420">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أوفرسايز" /></div>
                 <h4>تيشيرت أوفرسايز</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٤٢٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أوفرسايز" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="سويت بانس ريترو" data-price="480">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بانس ريترو" /></div>
                 <h4>سويت بانس ريترو</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٤٨٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20بانس%20ريترو" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
         </div>
     </div>
@@ -720,33 +937,33 @@
             <p>أحدث التصاميم بخامات فاخرة تناسب كل الأذواق</p>
         </div>
         <div class="products-grid">
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت أبيض" data-price="350">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أبيض" /></div>
                 <h4>تيشيرت أبيض</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٣٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أبيض" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت أسود" data-price="350">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أسود" /></div>
                 <h4>تيشيرت أسود</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٣٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أسود" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت جرافيك" data-price="420">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت جرافيك" /></div>
                 <h4>تيشيرت جرافيك</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٤٢٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20جرافيك" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت أوفرسايز" data-price="450">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أوفرسايز" /></div>
                 <h4>تيشيرت أوفرسايز</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٤٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20أوفرسايز" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
         </div>
     </div>
@@ -760,33 +977,33 @@
             <p>راحة فائقة وأناقة عصرية في قطعة واحدة</p>
         </div>
         <div class="products-grid">
-            <div class="product-card">
+            <div class="product-card" data-name="سويت كلاسيك" data-price="400">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كلاسيك" /></div>
                 <h4>سويت كلاسيك</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٤٠٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20كلاسيك" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="سويت كارگو" data-price="480">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كارگو" /></div>
                 <h4>سويت كارگو</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٤٨٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20كارگو" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="سويت ريترو" data-price="450">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت ريترو" /></div>
                 <h4>سويت ريترو</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٤٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20ريترو" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="سويت بريميوم" data-price="520">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بريميوم" /></div>
                 <h4>سويت بريميوم</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٥٢٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20بريميوم" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
         </div>
     </div>
@@ -800,33 +1017,33 @@
             <p>تشكيلة محدودة وصلت حديثاً .. لا تفوتها</p>
         </div>
         <div class="products-grid">
-            <div class="product-card">
+            <div class="product-card" data-name="تيشيرت إصدار محدود" data-price="490">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت إصدار محدود" /></div>
                 <h4>تيشيرت إصدار محدود</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٤٩٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تيشيرت%20إصدار%20محدود" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="سويت بانس كاجوال" data-price="460">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كاجوال" /></div>
                 <h4>سويت بانس كاجوال</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٤٦٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20سويت%20كاجوال" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تجميعة الصيف" data-price="750">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة الصيف" /></div>
                 <h4>تجميعة الصيف</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٧٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20الصيف" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="طاقية ORREN" data-price="250">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="طاقية ORREN" /></div>
                 <h4>طاقية ORREN</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٢٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20طاقية%20ORREN" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
         </div>
     </div>
@@ -840,34 +1057,53 @@
             <p>أفضل الأسعار لتشكيلات متكاملة من إطلالتك</p>
         </div>
         <div class="products-grid">
-            <div class="product-card">
+            <div class="product-card" data-name="تجميعة ORREN Black" data-price="790">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة أسود" /></div>
                 <h4>تجميعة ORREN Black</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٧٩٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Black" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تجميعة ORREN Gray" data-price="790">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة رمادي" /></div>
                 <h4>تجميعة ORREN Gray</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٧٩٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Gray" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تجميعة Street Wear" data-price="850">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة ستريت" /></div>
                 <h4>تجميعة Street Wear</h4>
                 <div class="rating">★★★★☆</div>
                 <div class="price">٨٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Street" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
-            <div class="product-card">
+            <div class="product-card" data-name="تجميعة Premium" data-price="950">
                 <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة بريميوم" /></div>
                 <h4>تجميعة Premium</h4>
                 <div class="rating">★★★★★</div>
                 <div class="price">٩٥٠ ج.م</div>
-                <a href="https://wa.me/201026748027?text=أريد%20طلب%20تجميعة%20Premium" target="_blank" class="btn-order">اطلب القطعة</a>
+                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
             </div>
+        </div>
+    </div>
+
+    <!-- ========== السلة (Cart Sidebar) ========== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>🛒 سلة التسوق</h3>
+            <button class="close-cart" id="closeCart">✕</button>
+        </div>
+        <div id="cartItems">
+            <div class="cart-empty">🛍️ السلة فارغة</div>
+        </div>
+        <div class="cart-total" id="cartTotal" style="display:none;">
+            <div class="total-row">
+                <span>المجموع:</span>
+                <span id="totalPrice">٠ ج.م</span>
+            </div>
+            <button class="btn-checkout" id="checkoutBtn">📤 إرسال الطلب - واتساب</button>
         </div>
     </div>
 
@@ -897,8 +1133,157 @@
         </div>
     </footer>
 
-    <!-- ========== JavaScript لتأثير التمرير ========== -->
+    <!-- ========== JavaScript ========== -->
     <script>
+        // =====================================================
+        //  1. نظام السلة (Cart System)
+        // =====================================================
+        let cart = [];
+
+        // عناصر الـ DOM
+        const cartBadge = document.getElementById('cartBadge');
+        const cartFloatBtn = document.getElementById('cartFloatBtn');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const closeCart = document.getElementById('closeCart');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const totalPrice = document.getElementById('totalPrice');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        // إضافة منتج للسلة
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const card = this.closest('.product-card');
+                const name = card.dataset.name;
+                const price = parseInt(card.dataset.price);
+
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ name, price, quantity: 1 });
+                }
+
+                updateCart();
+                showNotification(`✅ تم إضافة "${name}" للسلة`);
+
+                this.textContent = '✅ تم الإضافة';
+                this.classList.add('added');
+                setTimeout(() => {
+                    this.textContent = '🛒 أضف للسلة';
+                    this.classList.remove('added');
+                }, 2000);
+            });
+        });
+
+        // تحديث واجهة السلة
+        function updateCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="cart-empty">🛍️ السلة فارغة</div>';
+                cartTotal.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                html += `
+                            <div class="cart-item">
+                                <div class="item-info">
+                                    <span class="item-name">${item.name}</span>
+                                    <span class="item-price">${item.price} ج.م × ${item.quantity} = ${itemTotal} ج.م</span>
+                                </div>
+                                <button class="remove-item" data-index="${index}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `;
+            });
+
+            cartItems.innerHTML = html;
+            cartTotal.style.display = 'block';
+            totalPrice.textContent = `${total} ج.م`;
+
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    cart.splice(index, 1);
+                    updateCart();
+                    showNotification('🗑️ تم حذف المنتج من السلة');
+                });
+            });
+        }
+
+        // فتح وإغلاق السلة
+        cartFloatBtn.addEventListener('click', function() {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeCartSidebar() {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeCart.addEventListener('click', closeCartSidebar);
+        cartOverlay.addEventListener('click', closeCartSidebar);
+
+        // إرسال الطلب عبر واتساب
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length === 0) return;
+
+            let message = '🛍️ طلب جديد من ORREN 26:\n\n';
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `• ${item.name} × ${item.quantity} = ${itemTotal} ج.م\n`;
+            });
+            message += `\n💰 الإجمالي: ${total} ج.م`;
+            message += '\n\n📦 يرجى تأكيد الطلب وشكراً لاختياركم ORREN 26 ❤️';
+
+            const phone = '201026748027';
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        });
+
+        // إشعار منبثق
+        function showNotification(text) {
+            const notif = document.createElement('div');
+            notif.style.cssText = `
+                        position: fixed; bottom: 180px; left: 50%; transform: translateX(-50%);
+                        background: rgba(201, 168, 76, 0.95); color: #0f0e0d; padding: 12px 28px;
+                        border-radius: 50px; font-weight: 600; font-size: 1rem;
+                        z-index: 99999; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                        transition: all 0.4s ease; opacity: 0; pointer-events: none;
+                    `;
+            notif.textContent = text;
+            document.body.appendChild(notif);
+
+            requestAnimationFrame(() => {
+                notif.style.opacity = '1';
+                notif.style.transform = 'translateX(-50%) translateY(-10px)';
+            });
+
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateX(-50%) translateY(20px)';
+                setTimeout(() => notif.remove(), 400);
+            }, 2500);
+        }
+
+        // =====================================================
+        //  2. تأثير التمرير على الناف بار
+        // =====================================================
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
