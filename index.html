@@ -54,7 +54,7 @@
         }
 
         /* ---------------------- */
-        /* 3. الهيدر (ثابتة في الأعلى) */
+        /* 3. الهيدر */
         /* ---------------------- */
         .navbar {
             position: fixed;
@@ -164,7 +164,7 @@
         }
 
         /* ---------------------- */
-        /* 4. واتساب عائم + سلة عائمة */
+        /* 4. أيقونات عائمة */
         /* ---------------------- */
         .float-icons {
             position: fixed;
@@ -228,7 +228,7 @@
         }
 
         /* ---------------------- */
-        /* 5. القسم الرئيسي (Hero) */
+        /* 5. القسم الرئيسي */
         /* ---------------------- */
         .hero {
             padding: 60px 0 50px;
@@ -403,7 +403,7 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 35px;
             margin: 30px 0 10px;
         }
@@ -457,6 +457,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            padding: 0;
         }
         .product-img::after {
             content: '';
@@ -482,9 +483,45 @@
         }
         .product-card .rating {
             color: var(--gold-light);
-            margin: 8px 0 15px;
+            margin: 8px 0 10px;
             letter-spacing: 3px;
         }
+        .product-card .sizes {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .product-card .sizes select {
+            width: 100%;
+            max-width: 150px;
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            background: var(--card-bg);
+            color: var(--white);
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition);
+            text-align: center;
+            margin: 5px auto;
+            display: block;
+        }
+        .product-card .sizes select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(201, 168, 76, 0.1);
+        }
+        .product-card .sizes select option {
+            background: var(--card-bg);
+            color: var(--white);
+        }
+        .product-card .sizes .no-sizes {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            display: block;
+            margin: 8px 0;
+        }
+
         .btn-order {
             background: var(--gold);
             color: var(--primary-dark);
@@ -496,6 +533,7 @@
             cursor: pointer;
             display: inline-block;
             font-size: 0.95rem;
+            margin-top: 5px;
         }
         .btn-order:hover {
             background: transparent;
@@ -512,9 +550,22 @@
             color: white;
             border: none;
         }
+        .btn-order.sold-out {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            border: none;
+        }
+        .btn-order.sold-out:hover {
+            background: #444;
+            color: #888;
+            border: none;
+            box-shadow: none;
+            transform: none;
+        }
 
         /* ---------------------- */
-        /* 7. السلة (Cart Sidebar) */
+        /* 7. السلة */
         /* ---------------------- */
         .cart-overlay {
             position: fixed;
@@ -594,6 +645,10 @@
         .cart-item .item-price {
             color: var(--gold-light);
             font-size: 0.9rem;
+        }
+        .cart-item .item-size {
+            color: var(--gray);
+            font-size: 0.85rem;
         }
         .cart-item .remove-item {
             background: none;
@@ -831,24 +886,41 @@
                 font-size: 0.45rem;
             }
         }
+
+        /* Loading Spinner */
+        .loading {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+        .loading i {
+            font-size: 2rem;
+            color: var(--gold);
+            animation: spin 1s linear infinite;
+            display: block;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ========== واتساب عائم + سلة عائمة ========== -->
+    <!-- ========== أيقونات عائمة ========== -->
     <div class="float-icons">
-        <!-- أيقونة السلة -->
         <button class="float-btn cart" id="cartFloatBtn" title="سلة التسوق">
             <i class="fas fa-shopping-cart"></i>
             <span class="badge" id="cartBadge">0</span>
         </button>
-        <!-- أيقونة واتساب -->
         <a href="https://wa.me/201026748027" target="_blank" class="float-btn whatsapp" title="تواصل واتساب">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
 
-    <!-- ========== الهيدر (ثابتة في الأعلى) ========== -->
+    <!-- ========== الهيدر ========== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="logo-wrapper">
@@ -892,203 +964,54 @@
     </section>
 
     <!-- ========================================================== -->
-    <!--  أفضل المبيعات -->
+    <!--  أقسام المنتجات -->
     <!-- ========================================================== -->
-    <div class="container" id="bestsellers">
-        <h2 class="section-title">الأكثر <span>مبيعاً</span></h2>
-        <div class="products-grid">
-            <div class="product-card" data-name="تيشيرت ORREN" data-price="390">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت ORREN" /></div>
-                <h4>تيشيرت ORREN</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٣٩٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
+
+    <div id="products-container">
+        <!-- أفضل المبيعات -->
+        <div class="container" id="bestsellers">
+            <h2 class="section-title">الأكثر <span>مبيعاً</span></h2>
+            <div class="products-grid" id="bestsellers-grid"></div>
+        </div>
+
+        <!-- تشيرتات -->
+        <div class="container" id="tshirts">
+            <div class="category-header">
+                <h3>تشيرتات <span class="brand-name">ORREN</span></h3>
+                <p>أحدث التصاميم بخامات فاخرة تناسب كل الأذواق</p>
             </div>
-            <div class="product-card" data-name="سويت بانس كلاسيك" data-price="450">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بانس" /></div>
-                <h4>سويت بانس كلاسيك</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٤٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
+            <div class="products-grid" id="tshirts-grid"></div>
+        </div>
+
+        <!-- سويت بانس -->
+        <div class="container" id="sweatpants">
+            <div class="category-header">
+                <h3>سويت بانس <span class="brand-name">ORREN</span></h3>
+                <p>راحة فائقة وأناقة عصرية في قطعة واحدة</p>
             </div>
-            <div class="product-card" data-name="تيشيرت أوفرسايز" data-price="420">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أوفرسايز" /></div>
-                <h4>تيشيرت أوفرسايز</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٤٢٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
+            <div class="products-grid" id="sweatpants-grid"></div>
+        </div>
+
+        <!-- الأجدد -->
+        <div class="container" id="new">
+            <div class="category-header">
+                <h3>الأجدد من <span class="brand-name">ORREN</span></h3>
+                <p>تشكيلة محدودة وصلت حديثاً .. لا تفوتها</p>
             </div>
-            <div class="product-card" data-name="سويت بانس ريترو" data-price="480">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بانس ريترو" /></div>
-                <h4>سويت بانس ريترو</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٤٨٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
+            <div class="products-grid" id="new-grid"></div>
+        </div>
+
+        <!-- تجميعات -->
+        <div class="container" id="sets">
+            <div class="category-header">
+                <h3>تجميعات <span class="brand-name">ORREN</span></h3>
+                <p>أفضل الأسعار لتشكيلات متكاملة من إطلالتك</p>
             </div>
+            <div class="products-grid" id="sets-grid"></div>
         </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!--  1. تشيرتات ORREN -->
-    <!-- ========================================================== -->
-    <div class="container" id="tshirts">
-        <div class="category-header">
-            <h3>تشيرتات <span class="brand-name">ORREN</span></h3>
-            <p>أحدث التصاميم بخامات فاخرة تناسب كل الأذواق</p>
-        </div>
-        <div class="products-grid">
-            <div class="product-card" data-name="تيشيرت أبيض" data-price="350">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أبيض" /></div>
-                <h4>تيشيرت أبيض</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٣٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تيشيرت أسود" data-price="350">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أسود" /></div>
-                <h4>تيشيرت أسود</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٣٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تيشيرت جرافيك" data-price="420">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت جرافيك" /></div>
-                <h4>تيشيرت جرافيك</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٤٢٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تيشيرت أوفرسايز" data-price="450">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت أوفرسايز" /></div>
-                <h4>تيشيرت أوفرسايز</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٤٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================================================== -->
-    <!--  2. سويت بانس ORREN -->
-    <!-- ========================================================== -->
-    <div class="container" id="sweatpants">
-        <div class="category-header">
-            <h3>سويت بانس <span class="brand-name">ORREN</span></h3>
-            <p>راحة فائقة وأناقة عصرية في قطعة واحدة</p>
-        </div>
-        <div class="products-grid">
-            <div class="product-card" data-name="سويت كلاسيك" data-price="400">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كلاسيك" /></div>
-                <h4>سويت كلاسيك</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٤٠٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="سويت كارگو" data-price="480">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كارگو" /></div>
-                <h4>سويت كارگو</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٤٨٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="سويت ريترو" data-price="450">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت ريترو" /></div>
-                <h4>سويت ريترو</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٤٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="سويت بريميوم" data-price="520">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت بريميوم" /></div>
-                <h4>سويت بريميوم</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٥٢٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================================================== -->
-    <!--  3. الأجدد من ORREN -->
-    <!-- ========================================================== -->
-    <div class="container" id="new">
-        <div class="category-header">
-            <h3>الأجدد من <span class="brand-name">ORREN</span></h3>
-            <p>تشكيلة محدودة وصلت حديثاً .. لا تفوتها</p>
-        </div>
-        <div class="products-grid">
-            <div class="product-card" data-name="تيشيرت إصدار محدود" data-price="490">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تيشيرت إصدار محدود" /></div>
-                <h4>تيشيرت إصدار محدود</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٤٩٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="سويت بانس كاجوال" data-price="460">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="سويت كاجوال" /></div>
-                <h4>سويت بانس كاجوال</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٤٦٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تجميعة الصيف" data-price="750">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة الصيف" /></div>
-                <h4>تجميعة الصيف</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٧٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="طاقية ORREN" data-price="250">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="طاقية ORREN" /></div>
-                <h4>طاقية ORREN</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٢٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================================================== -->
-    <!--  4. تجميعات ORREN -->
-    <!-- ========================================================== -->
-    <div class="container" id="sets">
-        <div class="category-header">
-            <h3>تجميعات <span class="brand-name">ORREN</span></h3>
-            <p>أفضل الأسعار لتشكيلات متكاملة من إطلالتك</p>
-        </div>
-        <div class="products-grid">
-            <div class="product-card" data-name="تجميعة ORREN Black" data-price="790">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة أسود" /></div>
-                <h4>تجميعة ORREN Black</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٧٩٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تجميعة ORREN Gray" data-price="790">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة رمادي" /></div>
-                <h4>تجميعة ORREN Gray</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٧٩٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تجميعة Street Wear" data-price="850">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة ستريت" /></div>
-                <h4>تجميعة Street Wear</h4>
-                <div class="rating">★★★★☆</div>
-                <div class="price">٨٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-            <div class="product-card" data-name="تجميعة Premium" data-price="950">
-                <div class="product-img"><img src="imgs/1000581149.jpg" alt="تجميعة بريميوم" /></div>
-                <h4>تجميعة Premium</h4>
-                <div class="rating">★★★★★</div>
-                <div class="price">٩٥٠ ج.م</div>
-                <button class="btn-order add-to-cart">🛒 أضف للسلة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== السلة (Cart Sidebar) ========== -->
+    <!-- ========== السلة ========== -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -1133,14 +1056,15 @@
         </div>
     </footer>
 
-    <!-- ========== JavaScript ========== -->
+    <!-- ========================================================== -->
+    <!--  JavaScript -->
+    <!-- ========================================================== -->
     <script>
         // =====================================================
-        //  1. نظام السلة (Cart System)
+        //  0. نظام السلة (Cart System)
         // =====================================================
         let cart = [];
 
-        // عناصر الـ DOM
         const cartBadge = document.getElementById('cartBadge');
         const cartFloatBtn = document.getElementById('cartFloatBtn');
         const cartSidebar = document.getElementById('cartSidebar');
@@ -1151,34 +1075,57 @@
         const totalPrice = document.getElementById('totalPrice');
         const checkoutBtn = document.getElementById('checkoutBtn');
 
-        // إضافة منتج للسلة
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const card = this.closest('.product-card');
-                const name = card.dataset.name;
-                const price = parseInt(card.dataset.price);
-
-                const existingItem = cart.find(item => item.name === name);
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({ name, price, quantity: 1 });
-                }
-
-                updateCart();
-                showNotification(`✅ تم إضافة "${name}" للسلة`);
-
-                this.textContent = '✅ تم الإضافة';
-                this.classList.add('added');
-                setTimeout(() => {
-                    this.textContent = '🛒 أضف للسلة';
-                    this.classList.remove('added');
-                }, 2000);
+        function attachCartEvents() {
+            document.querySelectorAll('.add-to-cart:not(.sold-out)').forEach(button => {
+                button.removeEventListener('click', handleAddToCart);
+                button.addEventListener('click', handleAddToCart);
             });
-        });
+        }
 
-        // تحديث واجهة السلة
+        function handleAddToCart(e) {
+            e.preventDefault();
+            const btn = e.currentTarget;
+            const card = btn.closest('.product-card');
+            if (!card) return;
+
+            const name = card.dataset.name;
+            const price = parseInt(card.dataset.price);
+            
+            const sizeSelect = card.querySelector('.size-select');
+            let selectedSize = '';
+            if (sizeSelect) {
+                selectedSize = sizeSelect.value;
+                if (!selectedSize) {
+                    showNotification('⚠️ من فضلك اختر المقاس أولاً');
+                    return;
+                }
+            }
+
+            const sizesStr = card.dataset.sizes || '';
+            const availableSizes = sizesStr.split(',').filter(s => s.trim() !== '');
+            if (availableSizes.length === 0) {
+                showNotification('❌ هذا المنتج غير متوفر حالياً');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.name === name && item.size === selectedSize);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1, size: selectedSize });
+            }
+
+            updateCart();
+            showNotification(`✅ تم إضافة "${name}" - مقاس ${selectedSize} للسلة`);
+
+            btn.textContent = '✅ تم الإضافة';
+            btn.classList.add('added');
+            setTimeout(() => {
+                btn.textContent = '🛒 أضف للسلة';
+                btn.classList.remove('added');
+            }, 2000);
+        }
+
         function updateCart() {
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             cartBadge.textContent = totalItems;
@@ -1198,6 +1145,7 @@
                             <div class="cart-item">
                                 <div class="item-info">
                                     <span class="item-name">${item.name}</span>
+                                    <span class="item-size">📏 المقاس: ${item.size}</span>
                                     <span class="item-price">${item.price} ج.م × ${item.quantity} = ${itemTotal} ج.م</span>
                                 </div>
                                 <button class="remove-item" data-index="${index}">
@@ -1221,7 +1169,6 @@
             });
         }
 
-        // فتح وإغلاق السلة
         cartFloatBtn.addEventListener('click', function() {
             cartSidebar.classList.add('open');
             cartOverlay.classList.add('active');
@@ -1237,7 +1184,6 @@
         closeCart.addEventListener('click', closeCartSidebar);
         cartOverlay.addEventListener('click', closeCartSidebar);
 
-        // إرسال الطلب عبر واتساب
         checkoutBtn.addEventListener('click', function() {
             if (cart.length === 0) return;
 
@@ -1246,7 +1192,11 @@
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-                message += `• ${item.name} × ${item.quantity} = ${itemTotal} ج.م\n`;
+                message += `• ${item.name} × ${item.quantity}`;
+                if (item.size) {
+                    message += ` (المقاس: ${item.size})`;
+                }
+                message += ` = ${itemTotal} ج.م\n`;
             });
             message += `\n💰 الإجمالي: ${total} ج.م`;
             message += '\n\n📦 يرجى تأكيد الطلب وشكراً لاختياركم ORREN 26 ❤️';
@@ -1256,7 +1206,6 @@
             window.open(url, '_blank');
         });
 
-        // إشعار منبثق
         function showNotification(text) {
             const notif = document.createElement('div');
             notif.style.cssText = `
@@ -1265,6 +1214,7 @@
                         border-radius: 50px; font-weight: 600; font-size: 1rem;
                         z-index: 99999; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
                         transition: all 0.4s ease; opacity: 0; pointer-events: none;
+                        max-width: 90%; text-align: center;
                     `;
             notif.textContent = text;
             document.body.appendChild(notif);
@@ -1282,7 +1232,190 @@
         }
 
         // =====================================================
-        //  2. تأثير التمرير على الناف بار
+        //  1. جلب البيانات من Google Sheets (OpenSheet)
+        // =====================================================
+        const SHEET_ID = '1KSrzsifF3HWZKUz8VfQh89aNb5rNPJ5p0MCP-TkmKCY';
+        const TAB_NAME = 'Sheet1';
+        const API_URL = `https://opensheet.elk.sh/${SHEET_ID}/${TAB_NAME}`;
+
+        async function loadProducts() {
+            document.querySelectorAll('.products-grid').forEach(grid => {
+                grid.innerHTML = `
+                    <div class="loading" style="grid-column:1/-1;">
+                        <i class="fas fa-spinner"></i>
+                        جاري تحميل المنتجات...
+                    </div>
+                `;
+            });
+
+            try {
+                console.log('🔄 جاري تحميل البيانات من OpenSheet...');
+                const response = await fetch(API_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`فشل الاتصال بالشيت - كود الخطأ: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('✅ تم استلام البيانات:', data);
+
+                if (!data || data.length === 0) {
+                    throw new Error('الجدول فاضي أو لا يحتوي على بيانات');
+                }
+
+                // تحويل البيانات مع دعم الصور (اسم ملف - رابط - إدراج)
+                const products = data.map(row => {
+                    let imageValue = '';
+                    
+                    // التعامل مع الصورة
+                    if (row.image) {
+                        // لو كانت صورة من إدراج (بتجيء ككائن)
+                        if (typeof row.image === 'object' && row.image !== null) {
+                            // لو كانت الصورة من إدراج في الخلية
+                            if (row.image.image) {
+                                imageValue = row.image.image; // base64 data
+                            } else if (row.image.url) {
+                                imageValue = row.image.url; // رابط الصورة
+                            } else {
+                                // لو كانت كائن تاني، نحاول ناخد أي قيمة نصية
+                                imageValue = JSON.stringify(row.image);
+                            }
+                        } 
+                        // لو كانت نص (رابط أو اسم ملف)
+                        else if (typeof row.image === 'string') {
+                            imageValue = row.image.trim();
+                        }
+                    }
+                    
+                    return {
+                        id: row.product_id ? String(row.product_id).trim() : '',
+                        name: row.name ? String(row.name).trim() : '',
+                        price: row.price ? String(row.price).trim() : '0',
+                        category: row.category ? String(row.category).trim() : '',
+                        image: imageValue || 'default.jpg',
+                        sizes: row.sizes ? String(row.sizes).split(',').map(s => s.trim()) : [],
+                        rating: parseInt(row.rating) || 5,
+                    };
+                }).filter(p => p.id && p.name);
+
+                console.log('✅ تم تحويل البيانات، عدد المنتجات:', products.length);
+
+                if (products.length === 0) {
+                    throw new Error('لا توجد منتجات صالحة في الجدول');
+                }
+
+                const categories = {
+                    bestsellers: [],
+                    tshirts: [],
+                    sweatpants: [],
+                    new: [],
+                    sets: []
+                };
+
+                products.forEach(p => {
+                    if (categories[p.category]) {
+                        categories[p.category].push(p);
+                    }
+                });
+
+                renderProducts('bestsellers-grid', categories.bestsellers);
+                renderProducts('tshirts-grid', categories.tshirts);
+                renderProducts('sweatpants-grid', categories.sweatpants);
+                renderProducts('new-grid', categories.new);
+                renderProducts('sets-grid', categories.sets);
+
+            } catch (error) {
+                console.error('❌ خطأ:', error);
+                document.querySelectorAll('.products-grid').forEach(grid => {
+                    grid.innerHTML = `
+                        <div style="grid-column:1/-1; text-align:center; color:#ff6b6b; padding:40px;">
+                            <i class="fas fa-exclamation-circle" style="font-size:2rem; display:block; margin-bottom:15px;"></i>
+                            حدث خطأ في تحميل المنتجات: ${error.message}
+                            <br><small style="color:var(--gray);">
+                                تأكد من:
+                                <br>1. الشيت منشور للعامة (Anyone with the link can view)
+                                <br>2. اسم الصفحة مطابق (${TAB_NAME})
+                                <br>3. بيانات الشيت صحيحة
+                            </small>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // =====================================================
+        //  2. عرض المنتجات مع اختيار المقاس ودعم الصور
+        // =====================================================
+        function renderProducts(gridId, products) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; color:var(--gray); padding:30px;">
+                        🛍️ لا توجد منتجات في هذا القسم حالياً
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            products.forEach(p => {
+                const stars = '★'.repeat(Math.min(p.rating, 5)) + '☆'.repeat(Math.max(0, 5 - p.rating));
+                const hasSizes = p.sizes && p.sizes.length > 0;
+
+                // تحديد مصدر الصورة
+                let imageSrc = 'imgs/default.jpg';
+                if (p.image) {
+                    if (p.image.startsWith('http')) {
+                        imageSrc = p.image;
+                    } else if (p.image.startsWith('data:image')) {
+                        imageSrc = p.image;
+                    } else {
+                        imageSrc = `imgs/${p.image}`;
+                    }
+                }
+
+                let sizesHtml = '';
+                if (hasSizes) {
+                    sizesHtml = `
+                        <div class="sizes">
+                            <select class="size-select">
+                                <option value="">-- اختر المقاس --</option>
+                                ${p.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                } else {
+                    sizesHtml = `
+                        <div class="sizes">
+                            <span class="no-sizes">❌ غير متوفر حالياً</span>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="product-card" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-sizes="${p.sizes.join(',')}">
+                        <div class="product-img">
+                            <img src="${imageSrc}" alt="${p.name}" onerror="this.src='imgs/default.jpg'" />
+                        </div>
+                        <h4>${p.name}</h4>
+                        <div class="rating">${stars}</div>
+                        ${sizesHtml}
+                        <div class="price">${p.price} ج.م</div>
+                        <button class="btn-order add-to-cart ${!hasSizes ? 'sold-out' : ''}" data-id="${p.id}" ${!hasSizes ? 'disabled' : ''}>
+                            ${hasSizes ? '🛒 أضف للسلة' : '❌ نفذ من المخزون'}
+                        </button>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            attachCartEvents();
+        }
+
+        // =====================================================
+        //  3. تأثير التمرير
         // =====================================================
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
@@ -1292,6 +1425,11 @@
                 navbar.classList.remove('scrolled');
             }
         });
+
+        // =====================================================
+        //  4. تشغيل التطبيق
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', loadProducts);
     </script>
 
 </body>
